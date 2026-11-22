@@ -63,7 +63,13 @@ h1 {
 
 .composer {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
+}
+
+.composer .error {
+  flex: 1 0 100%;
+  margin: 0;
 }
 
 .composer input {

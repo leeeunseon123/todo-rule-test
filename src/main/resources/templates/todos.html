@@ -18,8 +18,8 @@
         <label class="sr-only" for="title">할 일</label>
         <input id="title" type="text" th:field="*{title}" placeholder="할 일을 입력하세요" maxlength="200" />
         <button type="submit">추가</button>
+        <p class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">내용을 입력해 주세요.</p>
       </form>
-      <p class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">내용을 입력해 주세요.</p>
 
       <ul class="list">
         <li class="empty" th:if="${#lists.isEmpty(todos)}">아직 할 일이 없습니다.</li>
