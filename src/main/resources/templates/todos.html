@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Todo List</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="header">
+        <p class="brand">Todo List</p>
+        <h1>오늘 할 일</h1>
+        <p class="lead">Spring Boot로 등록하고, 완료하고, 지우세요.</p>
+      </header>
+
+      <form class="composer" th:action="@{/todos}" th:object="${form}" method="post">
+        <label class="sr-only" for="title">할 일</label>
+        <input id="title" type="text" th:field="*{title}" placeholder="할 일을 입력하세요" maxlength="200" />
+        <button type="submit">추가</button>
+        <p class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">내용을 입력해 주세요.</p>
+      </form>
+
+      <ul class="list">
+        <li class="empty" th:if="${#lists.isEmpty(todos)}">아직 할 일이 없습니다.</li>
+        <li
+          class="item"
+          th:each="todo : ${todos}"
+          th:classappend="${todo.done} ? ' is-done'"
+        >
+          <form th:action="@{/todos/{id}/toggle(id=${todo.id})}" method="post">
+            <button class="toggle" type="submit" th:attr="aria-label=${todo.title + ' 완료 상태 변경'}">
+              <span th:text="${todo.done} ? '✓' : '○'">○</span>
+            </button>
+          </form>
+          <span class="title" th:text="${todo.title}">할 일</span>
+          <form th:action="@{/todos/{id}/delete(id=${todo.id})}" method="post">
+            <button class="delete" type="submit" th:attr="aria-label=${todo.title + ' 삭제'}">삭제</button>
+          </form>
+        </li>
+      </ul>
+    </main>
+  </body>
+</html>
